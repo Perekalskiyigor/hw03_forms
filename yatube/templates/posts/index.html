@@ -1,0 +1,36 @@
+<!-- posts/index.html -->
+{% extends 'base.html' %}
+{% block title %}
+  <title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">        
+    <article>
+      <!-- {#%if posts %#}-->
+        {% for post in page_obj %}
+           <ul>
+           <li>
+      <!-- запрашиваем имя автора из бд -->
+             Автор: {{ post.author.get_full_name }}
+           </li>
+           <li>
+      <!-- запрвшиваем из бд дату публикации и фильтруем -->
+             Дата публикации: {{ post.pubdate|date:"d E Y" }}
+           </li>
+           </ul>      
+      <!-- запршиваем из бд текст поста -->
+             <p>{{post.text}}</p>
+           {% if post.group %}   
+           <a href={% url 'posts:group_posts' post.group.slug %}>все записи группы</a>
+           {% endif %} 
+           {% if not forloop.last %}<hr>{% endif %}
+        {% endfor %}
+        {% include 'posts/includes/paginator.html' %}
+    </article>
+  <!-- под последним постом нет линии -->
+ </div>  
+      <!--{#% else %#}-->
+        <!-- <p>нет записей</p>-->
+      <!-- {#% endif %#}-->
+{% endblock %} 
