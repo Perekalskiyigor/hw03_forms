@@ -1,38 +1,47 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
+
 User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField("group name", max_length=200,)
-    slug = models.SlugField(unique=True, verbose_name="URL", max_length=20)
-    description = models. TextField("Description")
-
-    # Metadata
-    def __str__(self):
-        # выводим имя группы
-        return self.title
+    title = models.CharField(
+        'Название',
+        max_length=200,
+        null=True,
+        blank=True
+    )
+    slug = models.SlugField(
+        verbose_name='URL',
+        unique=True,
+        null=True,
+        blank=True,
+    )
+    description = models.TextField(
+        'Описание',
+        null=True,
+        blank=True,
+    )
 
 
 class Post(models.Model):
-    text = models.TextField("PostText")
-    pub_date = models.DateTimeField("Publication_date", auto_now_add=True)
+    text = models.TextField()
+    pub_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name="Author"
+        related_name='posts',
     )
     group = models.ForeignKey(
         Group,
-        on_delete=models.SET_NULL,
-        related_name='groups',
         blank=True,
-        null=True)
-# Metadata
-
-    def __str__(self):
-        # выводим текст поста
-        return self.text
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="posts",
+    )
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ["-pub_date"]
+
+    def __str__(self):
+        return self.text

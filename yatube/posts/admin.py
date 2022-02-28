@@ -1,33 +1,21 @@
 from django.contrib import admin
 
-from .models import Post, Group  # добавить модель Post в инт адм
-
-
-class PostAdmin(admin.ModelAdmin):
-    # Перечисляем поля, которые должны отображаться в админке
-    list_display = ('pk', 'text', 'pub_date', 'author', 'group',)
-    # добавьте настройку list_editable, это позволит
-    # изменять поле group в любом посте
-    list_editable = ('group',)
-    # Добавляем интерфейс для поиска по тексту постов
-    search_fields = ('text',)
-    # Добавляем возможность фильтрации по дате
-    list_filter = ('pub_date',)
-    # если поле пустое заполняем -пусто-
-    empty_value_display = '-пусто-'
-# При регистрации модели Post источником конфигурации для неё назначаем
-# класс PostAdmin
+from .models import Group, Post
 
 
 class GroupAdmin(admin.ModelAdmin):
-    # Перечисляем поля, которые должны отображаться в админке
-    list_display = ('pk', 'title', 'slug', 'description')
-    # Добавляем интерфейс для поиска по названию
-    search_fields = ('title',)
-    empty_value_display = '-пусто-'
-# При регистрации модели Post источником конфигурации для неё назначаем
-# класс GroupAdmin
+    list_display = ("pk", "title", "slug", "description")
+    search_fields = ("text",)
+    empty_value_display = "-пусто-"
 
 
-admin.site.register(Post, PostAdmin)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("pk", "text", "pub_date", "author", "group")
+    list_editable = ("group",)
+    search_fields = ("text",)
+    list_filter = ("pub_date",)
+    empty_value_display = "-пусто-"
+
+
 admin.site.register(Group, GroupAdmin)
+admin.site.register(Post, PostAdmin)

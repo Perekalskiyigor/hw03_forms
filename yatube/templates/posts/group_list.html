@@ -1,35 +1,29 @@
-<!-- posts/index.html -->
 {% extends 'base.html' %}
-{% block title %}
-  <title>{{ title }}</title>
-{% endblock %}
-
 {% block content %}
-  <div class="container">        
-    <article>
-      <p>
-        {{ group.title }}
-      </p>
-      {%if posts%}
-        {% for post in posts %}
-           <ul>
-           <li>
-      <!-- запрашиваем имя автора из бд -->
-             Автор: {{ post.author.get_full_name }}
-           </li>
-           <li>
-      <!-- запрвшиваем из бд дату публикации и фильтруем -->
-             Дата публикации: {{post.pubdate|date:"d E Y"}}
-           </li>
-           </ul>      
-      <!-- запршиваем из бд текст поста -->
-           <p>{{post.text}}</p>
-           {% if not forloop.last %}<hr>{% endif %}
-           {% endfor %}
-      </article>
-  <!-- под последним постом нет линии -->
-  </div>  
-      {% else %}
-        <p>нет записей</p>
-      {% endif %}
-{% endblock %} 
+{% block header %}{{ group.author }}{% endblock %}
+{% block title %} 
+{{ group.author }}
+{% endblock %}
+<div class="container py-5">
+  <h1> {{ group.title }} </h1>
+  <p>  
+    {{ group.description }}
+  </p>
+  <article>
+    {% for post in page_obj %}
+    <ul>
+      <li>
+        Автор: {{ post.author.get_full_name }}
+      </li>
+      <li>
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+    <p>{{ post.text }}</p>
+    <a href="{% url 'posts:post_detail' post.pk %}"> Подробная информация</a>  
+    {% endfor %}
+  </article>    
+  {% if not forloop.last %}<hr>{% endif %}
+</div>
+{% include 'posts/includes/paginator.html' %}
+{% endblock %}
