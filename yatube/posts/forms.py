@@ -17,8 +17,8 @@ class PostFormTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user_author = User.objects.create_user(username='IvanIvanov')
-        cls.another_user = User.objects.create_user(username='PetrPetrov')
+        cls.user_author = User.objects.create_user(username='PutinV')
+        cls.another_user = User.objects.create_user(username='ZelenskiyV')
         cls.group = Group.objects.create(
             title='Тестовое название группы',
             slug='test-slug',
@@ -54,7 +54,7 @@ class PostFormTests(TestCase):
             content_type='image/gif'
         )
         form_data = {
-            'text': 'Начинаю новую тетрадь дневника, послѣ почти мѣсячнаго...',
+            'text': 'Нам все еще нужно построить форму',
             'group': self.group.id,
             'image': uploaded,
         }
@@ -176,10 +176,9 @@ class PostFormTests(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        redirect = (
-                reverse('users:login')
-                + '?next=' + reverse('posts:edit', args=[post.id])
-        )
+        redirect = (reverse('users:login')
+                    + '?next=' + reverse('posts:edit', args=[post.id])
+                    )
 
         self.assertRedirects(response, redirect)
         self.assertNotEqual(post.text, form_data['text'])
