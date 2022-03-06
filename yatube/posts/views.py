@@ -70,7 +70,6 @@ def post_create(request):
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    is_edit = True
     form = PostForm(
         request.POST or None, instance=post)
     if request.user != post.author:
