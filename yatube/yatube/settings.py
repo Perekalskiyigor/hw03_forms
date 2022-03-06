@@ -25,7 +25,7 @@ SECRET_KEY = '2w2ey+iffu)p0b+as=gs)-wjcqz0)ljwu#kbnvfvdl74e-(z)0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
@@ -36,7 +36,6 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 # Application definition
 
 INSTALLED_APPS = [
-    'about.apps.AboutConfig',
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'posts.apps.PostsConfig',
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'about.apps.AboutConfig',
 ]
 
 MIDDLEWARE = [
