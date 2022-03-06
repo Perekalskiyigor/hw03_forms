@@ -28,6 +28,7 @@ def setUp(self):
     self.authorized_client.force_login(self.user)
     self.client_authorized_another.force_login(Testr)
 
+
 def test_unauthorized_user_urls_status_code(self):
     """Проверка доступности страниц для неавторизованного пользователя."""
     status = HTTPStatus.OK
