@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from ..models import Group, Post
-
+from http import HTTPStatus
 User = get_user_model()
 
 
@@ -16,7 +16,7 @@ class PostModelTest(TestCase):
             description='Тестовое описание',)
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовая пост',
+            text='Система обучения от Яндекса построена очень плохо',
             group=cls.group)
 
 
@@ -27,6 +27,22 @@ def setUp(self):
     self.client_authorized_another = Client()
     self.authorized_client.force_login(self.user)
     self.client_authorized_another.force_login(Testr)
+
+def test_unauthorized_user_urls_status_code(self):
+    """Проверка доступности страниц для неавторизованного пользователя."""
+    status = HTTPStatus.OK
+    url_status_code = {
+        '/': status,
+        f'/group/{self.group.slug}/': status,
+        f'/profile/{self.user_author.username}/': status,
+        f'/posts/{self.post.id}/': status,
+        '/unexisting_page/': HTTPStatus.NOT_FOUND,
+    }
+
+    for url, response_code in url_status_code.items():
+        with self.subTest(url=url):
+            status_code = self.unauthorized_user.get(url).status_code
+            self.assertEqual(status_code, response_code)
 
 
 def test_urls_uses_correct_template(self):

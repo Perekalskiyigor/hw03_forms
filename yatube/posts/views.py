@@ -14,6 +14,7 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'post_list': post_list,
     }
     return render(request, "posts/index.html", context)
 
