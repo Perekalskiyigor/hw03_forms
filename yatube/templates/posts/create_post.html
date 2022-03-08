@@ -20,7 +20,6 @@
     {% else %}
     <form method="post" > <!-- <action= "{% url 'posts:post_create' %}"> -->
   {% endif %}
-      {{ csrf_token }}
       <input type="hidden" name="csrfmiddlewaretoken" value="">{% csrf_token %}
       <div class="form-group row my-3 p-3">
         <label for="id_text">
@@ -36,7 +35,6 @@
       <label for="id_group">
         Group
       </label>
-      {{ form.group }}
       <select name="group" class="form-control" id="id_group">
         <option value="" selected="---------"></option>
         {% for i in form.group %}

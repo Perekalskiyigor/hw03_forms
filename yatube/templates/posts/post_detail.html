@@ -19,11 +19,11 @@
         Автор: {{ post.author.get_full_name }}
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-center">
-        Всего постов автора:  <span >{{ post.count }}</span> 
+        Всего постов автора:  <span >{{ count }}</span> 
       </li>
       <li class="list-group-item">
         {% if user.is_authenticated %}
-        <a href="{% url 'posts:profile' user.username %}"> 
+        <a href="{% url 'posts:profile' post.author %}"> 
           все посты пользователя
         </a>
         {% endif %}

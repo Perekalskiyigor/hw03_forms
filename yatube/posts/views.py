@@ -1,20 +1,19 @@
-# from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import (
     get_object_or_404, redirect, render,
 )
 from .models import Group, Post, User
 from .forms import PostForm
+PAGINATOR_PAGE = 10
 
 
 def index(request):
     post_list = Post.objects.all()
-    paginator = Paginator(post_list, 10)
+    paginator = Paginator(post_list, PAGINATOR_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
-        'post_list': post_list,
     }
     return render(request, "posts/index.html", context)
 
@@ -71,6 +70,7 @@ def post_create(request):
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    is_edit = True
     form = PostForm(
         request.POST or None, instance=post)
     if request.user != post.author:
@@ -81,7 +81,7 @@ def post_edit(request, pk):
 
     context = {
         'form': form,
-        'is_edit': True,
+        'is_edit': is_edit,
         'post': post,
     }
     return render(request, 'posts/create_post.html', context)
